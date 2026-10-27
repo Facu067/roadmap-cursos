@@ -11,6 +11,7 @@
 |------|----------|----------------|---------|
 | Frontend | React + Vite + pnpm | React 19 · Vite (fijada en `pnpm-lock.yaml`) · pnpm 10.34.5 · Node v20.20.2 | fijado por SPEC; Vite da dev server rápido con proxy a la API |
 | Routing | React Router | 7.x | estándar de facto para SPA con rutas protegidas |
+| Estilos | Tailwind CSS + `@tailwindcss/vite` | 4.x | utilidades mobile-first; ya usado por el autor en un proyecto anterior (TD-008) |
 | Backend | FastAPI + uv | FastAPI 0.158.2 · uv 0.12.19 · Python 3.13 | fijado por SPEC; validación con Pydantic y OpenAPI automático en `/docs` |
 | ORM / driver | SQLModel + psycopg 3 | última stable al crear el proyecto | mismos modelos para tablas y schemas (Pydantic); menos código duplicado |
 | Seguridad | `bcrypt` · `PyJWT` · `slowapi` | última stable | bcrypt exigido por SPEC; JWT para sesión; slowapi para rate limiting |
@@ -28,7 +29,7 @@
 | TD-005 | Rate limiting del login | middleware propio / `slowapi` en memoria / Redis | **`slowapi` en memoria: 5 intentos/minuto por IP en `POST /auth/login`** | Cumple la SPEC sin otro servicio; Redis queda como mejora si se escala a varias réplicas |
 | TD-006 | Recuperación de contraseña | SMTP real / servicio externo (SendGrid) / log en desarrollo | **Token aleatorio de 32 bytes, guardado como hash SHA-256, válido 30 min, un solo uso; en dev el enlace se escribe en el log del backend** | Ciclo completo verificable sin depender de un proveedor de correo; el envío queda aislado en un `Notificador` reemplazable |
 | TD-007 | Esquema de BD y datos iniciales | Alembic / `create_all` + seed | **`SQLModel.metadata.create_all` al iniciar + script de seed idempotente** | Suficiente para el MVP; Alembic entra cuando haya cambios de esquema con datos reales (riesgo §6) |
-| TD-008 | Estilos | Tailwind / MUI / CSS propio con variables | **CSS propio con custom properties (tokens de la UX-UI) y CSS Modules** | Control total del mobile-first sin media queries "de arreglo"; el estilo Google se define en tokens, no depende de una librería |
+| TD-008 | Estilos | Tailwind / MUI / CSS propio con variables y CSS Modules | **Tailwind CSS 4, con los tokens de la UX-UI cargados en `@theme`** | Es mobile-first por diseño: las clases sin prefijo son la base y `md:` / `lg:` son `min-width`, justo lo que exige la SPEC. Los tokens Google viven en un solo lugar (`@theme`) y se usan como clases (`bg-primary`, `rounded-card`, `shadow-1`). Ya lo usé en un proyecto anterior, así que reduce el riesgo de plazo. MUI se descartó porque impone su propio estilo y pesa más |
 
 ## 3. Arquitectura
 
@@ -111,8 +112,7 @@ roadmap-cursos/
 │       │   ├── ui/                 # Button, Input, Card, Paginador, Toast, Modal, Skeleton, EmptyState
 │       │   └── api/cliente.js      # fetch con credentials y manejo del envelope de error
 │       └── styles/
-│           ├── tokens.css          # variables de UX-UI §2.4
-│           └── base.css
+│           └── index.css           # @import "tailwindcss" + @theme con los tokens de UX-UI §2.5
 ├── docker-compose.yml
 ├── .env.example
 └── docs/
@@ -164,7 +164,7 @@ flowchart LR
   | `POSTGRES_DB` | `acursar` | sí | nombre de la BD |
   | `DATABASE_URL` | `postgresql+psycopg://acursar:acursar@postgres:5432/acursar` | sí | conexión del backend |
   | `JWT_SECRET` | `cambiar-en-cada-entorno` | sí | firma de los JWT |
-  | `JWT_EXPIRA_MIN` | `60` | no | duración de la sesión |
+  | `JWT_EXPIRA_MIN` | `5` | no | duración de la sesión en minutos (TD-001) |
   | `LOGIN_RATE_LIMIT` | `5/minute` | no | límite de intentos de login (TD-005) |
   | `BCRYPT_ROUNDS` | `12` | no | cost de bcrypt |
   | `FRONTEND_URL` | `http://localhost:5173` | sí | base del enlace de recuperación |
@@ -180,7 +180,7 @@ flowchart LR
 | Restricción (SPEC) | Cómo se cumple | Dónde se verifica |
 |--------------------|----------------|-------------------|
 | Paginación de listados | TD-002, helper `compartido/paginacion.py` + componente `Paginador` | `GET /api/v1/cursos`, `/aportes/mios`, `/aportes/pendientes`, `/roadmap` |
-| Mobile-first con mejora progresiva | `base.css` sin media queries; breakpoints 768/1024 solo agregan ([UX-UI §3](UX-UI.md#3-estrategia-mobile-first-con-mejora-progresiva)) | Catálogo, formulario de aporte y roadmap en 360px |
+| Mobile-first con mejora progresiva | Tailwind: clases sin prefijo = base mobile (sin media queries); `md:` (768px) y `lg:` (1024px) solo agregan ([UX-UI §3](UX-UI.md#3-estrategia-mobile-first-con-mejora-progresiva)) | Catálogo, formulario de aporte y roadmap en 360px |
 | Menú sándwich | `app/Header` con drawer y ARIA | [APPFlow §2](APPFlow.md#2-rutas) — todas las pantallas |
 | Screaming Architecture | árbol §3.2 | revisión del repo |
 | Contraseñas con bcrypt | `identidad/seguridad.py`, cost 12 | columna `password_hash` empieza con `$2b$12$` |

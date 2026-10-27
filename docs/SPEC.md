@@ -90,7 +90,7 @@ inscribirse.
 
 | # | Restricción | Cómo la vamos a cumplir |
 |---|-------------|-------------------------|
-| 1 | Mobile-first con mejora progresiva | CSS base sin media queries pensado para 360px; solo `@media (min-width: 768px)` y `(min-width: 1024px)` para agregar columnas y navegación horizontal. Ver [UX-UI §3](UX-UI.md#3-estrategia-mobile-first-con-mejora-progresiva) |
+| 1 | Mobile-first con mejora progresiva | Tailwind CSS: las clases sin prefijo son la base pensada para 360px (sin media queries); solo los prefijos `md:` (min-width 768px) y `lg:` (min-width 1024px) agregan columnas y navegación horizontal. Ver [UX-UI §3](UX-UI.md#3-estrategia-mobile-first-con-mejora-progresiva) |
 | 2 | Paginación de todos los listados y sus tablas | Paginación por offset (`page`, `page_size`, respuesta con `total`) en catálogo, mis aportes, pendientes de validación y roadmap. Ver [TRD TD-002](TRD.md#2-decisiones-técnicas-mínimo-3) |
 | 3 | Menú sándwich en mobile | Componente `Header` con drawer accesible (`aria-expanded`, foco atrapado, cierre con ESC) visible por debajo de 1024px. Ver [UX-UI §4.5](UX-UI.md#45-menú-sándwich) |
 | 4 | Screaming Architecture | Carpetas por dominio: `identidad/`, `cursos/`, `aportes/`, `roadmap/` en backend y `features/` equivalentes en frontend. Ver [TRD §3.2](TRD.md#32-estructura-de-carpetas-la-que-se-va-a-crear-en-la-instancia-b) |
