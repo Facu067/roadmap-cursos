@@ -1,0 +1,44 @@
+# --- Material de la cátedra y borradores (no se versionan) ---
+_material/
+_borradores/
+
+# --- Entorno y secretos ---
+.env
+.env.*
+!.env.example
+
+# --- Node / pnpm / Vite (frontend) ---
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+.pnpm-store/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+coverage/
+
+# --- Python / uv / FastAPI (backend) ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+
+# --- Docker ---
+pgdata/
+
+# --- IDE y sistema operativo ---
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
