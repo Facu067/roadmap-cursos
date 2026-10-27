@@ -10,26 +10,26 @@
 A Cursar es una webapp comunitaria para la región de La Plata donde las personas que buscan
 capacitarse para conseguir trabajo encuentran cursos gratuitos cortos y medianos en un solo lugar.
 Los usuarios aportan cursos de cualquier plataforma o institución, un moderador los valida y los
-aprobados pasan a un catálogo público y paginado. Cada usuario arma su roadmap personal con los
+aprobados pasan a un catálogo público y paginado. Cada usuario arma su roadmap (camino) personal con los
 cursos que quiere hacer y sigue su avance.
 
 ## 2. Objetivos y métricas de éxito
 
 | Objetivo | Cómo sabemos que lo logramos |
 |----------|------------------------------|
-| Catálogo confiable y variado | ≥ 70% de los aportes terminan publicados; cursos publicados en al menos 6 de las 8 categorías |
+| Catálogo confiable y variado | más del 70% de los aportes terminan publicados; cursos publicados en al menos 6 de las 8 categorías |
 | Validación ágil | El 80% de los aportes se valida dentro de las 48 h de enviados |
-| El roadmap se usa para planificar | ≥ 50% de los usuarios registrados tiene al menos 3 cursos en su roadmap |
-| Los cursos se completan | ≥ 20% de los ítems de roadmap llegan a estado `terminado` en 3 meses |
+| El roadmap se usa para planificar | al menos el 50% de los usuarios registrados tiene al menos 3 cursos en su roadmap |
+| Los cursos se completan | al menos el 20% de los ítems de roadmap llegan a estado `terminado` en 3 meses |
 
 ## 3. Personas
 
-### Persona 1 — Laura, busca trabajo (rol `usuario`)
+### Persona 1 — Fany, busca trabajo (rol `usuario`)
 
-- **Contexto:** 27 años, vive en Berisso, terminó el secundario y busca empleo administrativo.
+- **Contexto:** 27 años, vive en La Plata, terminó el secundario y busca empleo administrativo.
   Usa el celular para casi todo.
-- **Motivaciones:** sumar cursos con certificado al CV lo antes posible y sin gastar plata.
-- **Frustraciones hoy:** encuentra cursos sueltos en grupos de Facebook y no sabe si son
+- **Motivaciones:** sumar cursos con certificado al CV lo antes posible y sin gastar dinero.
+- **Frustraciones hoy:** encuentra cursos sueltos en grupos de Facebook, y las publicidades de cursos en Instagram no dan información clara; no sabe si son
   gratuitos, si dan certificado o si siguen vigentes.
 - **Historias tipo:**
   - "Quiero ver qué cursos de administración con certificado hay, sin registrarme."
@@ -38,10 +38,10 @@ cursos que quiere hacer y sigue su avance.
 
 ### Persona 2 — Martín, moderador (rol `moderador`)
 
-- **Contexto:** 35 años, voluntario de un centro de formación barrial; revisa los aportes un par
+- **Contexto:** 35 años, voluntario de un CFL (Centro de Formación Laboral); revisa los aportes un par
   de veces por semana desde la computadora.
 - **Motivaciones:** que el catálogo tenga solo cursos reales, gratuitos y con enlace activo.
-- **Frustraciones hoy:** recibe pedidos de difusión por WhatsApp sin datos completos.
+- **Frustraciones hoy:** recibe pedidos de difusión por WhatsApp e Instagram sin datos completos.
 - **Historias tipo:**
   - "Quiero ver los aportes pendientes con todos sus datos para revisarlos rápido."
   - "Si rechazo un curso, quiero explicar por qué para que el aportante lo corrija."
@@ -50,7 +50,7 @@ cursos que quiere hacer y sigue su avance.
 
 | ID | Prioridad | Historia | Criterios de aceptación |
 |----|-----------|----------|-------------------------|
-| US-001 | P0 | Como **visitante**, quiero ver el catálogo comunitario paginado, buscar y filtrar, para descubrir cursos sin registrarme | - [ ] Dado que visito `/catalogo`, veo la primera página con hasta 12 cursos publicados<br>- [ ] Dado que hay más de 12 cursos, aparece el paginador y puedo ir a otra página<br>- [ ] Dado que escribo un texto, solo veo cursos cuyo título o tema lo contienen<br>- [ ] Dado que elijo categoría o modalidad, el listado se filtra y vuelve a la página 1<br>- [ ] Dado que no hay resultados, veo un empty state con CTA "Aportar un curso"<br>- [ ] Dado que toco un curso, veo su detalle completo (`/catalogo/:id`)<br>- [ ] Nunca veo cursos `en_revision` o `rechazado` |
+| US-001 | P0 | Como **visitante**, quiero ver el catálogo comunitario paginado, buscar y filtrar, para descubrir cursos sin registrarme | - [ ] Dado que visito /catalogo, veo la primera página con hasta 12 cursos publicados<br>- [ ] Dado que hay más de 12 cursos, aparece el paginador y puedo ir a otra página<br>- [ ] Dado que escribo un texto, solo veo cursos cuyo título o tema lo contienen<br>- [ ] Dado que elijo categoría o modalidad, el listado se filtra y vuelve a la página 1<br>- [ ] Dado que no hay resultados, veo un empty state con CTA "Aportar un curso"<br>- [ ] Dado que toco un curso, veo su detalle completo (`/catalogo/:id`)<br>- [ ] Nunca veo cursos `en_revision` o `rechazado` |
 | US-002 | P0 | Como **visitante**, quiero registrarme e iniciar sesión, para aportar cursos y tener mi roadmap | - [ ] Dado un email nuevo y contraseña de ≥ 8 caracteres, me registro y quedo logueado<br>- [ ] Dado un email ya registrado, veo "Ese email ya tiene una cuenta"<br>- [ ] Dado credenciales correctas, inicio sesión y vuelvo a la ruta desde la que vine<br>- [ ] Dado credenciales incorrectas, veo un mensaje genérico (no revela si el email existe)<br>- [ ] Dado más de 5 intentos de login en 1 minuto desde la misma IP, recibo "Demasiados intentos, probá en un minuto"<br>- [ ] Dado que cierro sesión, las rutas protegidas me redirigen a `/login` |
 | US-003 | P0 | Como **usuario**, quiero aportar un curso con sus datos, para sumarlo al catálogo de la comunidad | - [ ] El formulario pide: URL, categoría (lista), tema, título, versión, año, docentes, modalidad, cuestionarios, examen, certificado, aval, "¿lo tomaste?" y la confirmación de gratuidad<br>- [ ] Dado un campo obligatorio vacío o una URL inválida, veo el error junto al campo<br>- [ ] Dado una URL ya cargada, veo "Ese curso ya fue aportado"<br>- [ ] Dado un envío válido, veo un toast "Aporte enviado a revisión" y el curso queda `en_revision`<br>- [ ] El curso no aparece en el catálogo hasta ser aprobado |
 | US-004 | P0 | Como **moderador**, quiero aprobar o rechazar aportes, para que el catálogo solo tenga cursos válidos | - [ ] Dado que soy moderador, veo `/validar` en el menú; un usuario común no lo ve y recibe 403 si entra<br>- [ ] Veo los aportes `en_revision` paginados, del más antiguo al más nuevo, con todos sus datos y quién lo aportó<br>- [ ] Dado que apruebo, el curso pasa a `publicado` y aparece en el catálogo<br>- [ ] Dado que rechazo, debo escribir un motivo; el curso pasa a `rechazado` |
