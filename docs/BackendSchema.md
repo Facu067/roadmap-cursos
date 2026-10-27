@@ -81,7 +81,7 @@ erDiagram
 | id | integer identity | PK | |
 | email | varchar(50) | NOT NULL, UNIQUE | se guarda en minúsculas |
 | nombre | varchar(50) | NOT NULL | |
-| password_hash | varchar(12) | NOT NULL | hash bcrypt cost 12, nunca la contraseña en claro |
+| password_hash | varchar(60) | NOT NULL | hash bcrypt cost 12, nunca la contraseña en claro |
 | rol | rol_usuario | NOT NULL, default `'usuario'` | el moderador se crea por seed |
 | creado_en | timestamptz | NOT NULL, default `now()` | |
 
